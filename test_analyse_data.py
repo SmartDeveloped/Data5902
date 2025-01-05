@@ -1,21 +1,38 @@
 import pytest
 import pandas as pd
-from analyse_data import load_data, calculate_mean
+from analyse_data import load_data, get_value
 
 def test_load_data():
-    # Create a temporary CSV file
-    test_data = pd.DataFrame({"id": [1, 2], "value": [10, 20]})
-    test_data.to_csv("tests/temp_data.csv", index=False)
-
-    # Test the load_data function
-    data = load_data("tests/temp_data.csv")
-    assert data.shape == (2, 2)
-    assert list(data.columns) == ["id", "value"]
-
-def test_calculate_mean():
-    # Create test data
-    test_data = pd.DataFrame({"value": [10, 20, 30]})
+    # Create a mock dataset for testing
+    mock_data = pd.DataFrame({
+        "Category": ["Test Category"],
+        "2004/05": [100.0],
+        "2005/06": [200.0]
+    })
+    mock_data.to_csv("test_data.csv", index=False)
     
-    # Test the calculate_mean function
-    mean_value = calculate_mean(test_data)
-    assert mean_value == 20
+    # Test the load_data function
+    data = load_data("test_data.csv")
+    assert data.shape == (1, 3)
+    assert list(data.columns) == ["Category", "2004/05", "2005/06"]
+    assert data["2004/05"].dtype == float
+
+def test_get_value():
+    # Create a mock dataset
+    mock_data = pd.DataFrame({
+        "Category": ["Test Category"],
+        "2004/05": [100.0],
+        "2005/06": [200.0]
+    })
+    
+    # Test get_value function
+    value = get_value(mock_data, "Test Category", "2004/05")
+    assert value == 100.0
+
+    # Test with invalid category
+    with pytest.raises(ValueError):
+        get_value(mock_data, "Invalid Category", "2004/05")
+    
+    # Test with invalid year
+    with pytest.raises(ValueError):
+        get_value(mock_data, "Test Category", "Invalid Year")

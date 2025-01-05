@@ -4,34 +4,36 @@ def load_data(filepath):
     """
     Loads data from a CSV file.
     
-    Args:
-        filepath (str): Path to the CSV file.
-    
     Returns:
-        DataFrame: Loaded data.
+        DataFrame: Loaded and cleaned data.
     """
     return pd.read_csv(filepath)
 
-def calculate_mean(data):
+def get_value(data, category, year):
     """
-    Calculates the mean of the 'value' column.
-    
-    Args:
-        data (DataFrame): Pandas DataFrame with a 'value' column.
+    Retrieves the value for a specific category and year.
     
     Returns:
-        float: Mean value of the 'value' column.
+        float: Value for the specified category and year.
     """
-    return data['value'].mean()
+
+    value = data.loc[data['Category'] == category, year].values[0]
+    return value
 
 if __name__ == "__main__":
-    # Filepath to the data
-    filepath = "/Users/timothysmartomoruyi/Documents/Data5902/sample_data.csv"
+    # Filepath to the cleaned dataset
+    filepath = "performance-data.csv"
     
     # Load the data
     data = load_data(filepath)
     
-    # Calculate the mean value
-    mean_value = calculate_mean(data)
+    # Specify the category and year for analysis
+    category = "ATP / ATO"
+    year = "2004/05"
     
-    print(f"The mean value is: {mean_value}")
+    # Retrieve the value for the specified category and year
+    try:
+        value = get_value(data, category, year)
+        print(f"The value for '{category}' in {year} is: {value}")
+    except ValueError as e:
+        print(e)
