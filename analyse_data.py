@@ -1,12 +1,13 @@
 import pandas as pd
 
-def load_data(filepath):
+def load_data(filepath="performance-data.csv"):
     """
     Loads data from a CSV file.
     
     Returns:
         DataFrame: Loaded and cleaned data.
     """
+
     return pd.read_csv(filepath)
 
 def get_value(data, category, year):
@@ -23,7 +24,7 @@ def get_value(data, category, year):
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
     filepath = "performance-data.csv"
-    
+
     # Load the data
     data = load_data(filepath)
     
