@@ -17,9 +17,16 @@ def get_value(data, category, year):
     Returns:
         float: Value for the specified category and year.
     """
+    # Filter the DataFrame for the specified category
+    filtered_data = data.loc[data['Category'] == category, year]
+    
+    # Check if the resulting DataFrame is empty
+    if filtered_data.empty:
+        raise ValueError(f"Category '{category}' does not exist.")
+    
+    # Return the first element of the filtered value
+    return filtered_data.values[0]
 
-    value = data.loc[data['Category'] == category, year].values[0]
-    return value
 
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
