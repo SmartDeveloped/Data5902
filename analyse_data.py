@@ -13,19 +13,23 @@ def load_data(filepath="performance-data.csv"):
 def get_value(data, category, year):
     """
     Retrieves the value for a specific category and year.
-    
+
+    Args:
+        data (pd.DataFrame): The dataset.
+        category (str): The category to search for.
+        year (str): The year to search for.
+
     Returns:
         float: Value for the specified category and year.
+
+    Raises:
+        ValueError: If the category or year is not found in the dataset.
     """
-    # Filter the DataFrame for the specified category
-    filtered_data = data.loc[data['Category'] == category, year]
-    
-    # Check if the resulting DataFrame is empty
-    if filtered_data.empty:
-        raise ValueError(f"Category '{category}' does not exist.")
-    
-    # Return the first element of the filtered value
-    return filtered_data.values[0]
+    if year not in data.columns:
+        raise ValueError(f"The year '{year}' is not in the dataset.")
+    if category not in data['Category'].values:
+        raise ValueError(f"The category '{category}' is not in the dataset.")
+    return data.loc[data['Category'] == category, year].values[0]
 
 
 if __name__ == "__main__":

@@ -17,6 +17,7 @@ def test_load_data():
     assert list(data.columns) == ["Category", "2004/05", "2005/06"]
     assert data["2004/05"].dtype == float
 
+
 def test_get_value():
     # Create a mock dataset
     mock_data = pd.DataFrame({
@@ -24,15 +25,15 @@ def test_get_value():
         "2004/05": [100.0],
         "2005/06": [200.0]
     })
-    
+
     # Test get_value function
     value = get_value(mock_data, "Test Category", "2004/05")
     assert value == 100.0
 
     # Test with invalid category
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="The category 'Invalid Category' is not in the dataset."):
         get_value(mock_data, "Invalid Category", "2004/05")
-    
+
     # Test with invalid year
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="The year 'Invalid Year' is not in the dataset."):
         get_value(mock_data, "Test Category", "Invalid Year")
