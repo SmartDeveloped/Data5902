@@ -191,7 +191,8 @@ if __name__ == "__main__":
         xlabel="Year",
         ylabel="Number of Occasions (1 = 100,000)"
     )
-
+    
+    # Create the linear regression graph
     create_lineargraph(
         dataset = data,
         x = "Staff - Absence or Shortage",
