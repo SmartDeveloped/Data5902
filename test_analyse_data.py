@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from analyse_data import load_data, get_value, statistic_info
+from analyse_data import load_data, get_value, statistic_info, create_linegraph
 
 def create_mock_dataset():
     return pd.DataFrame({
@@ -50,6 +50,14 @@ def test_statistic_info():
     # Assert that the result is a DataFrame
     assert isinstance(stats, pd.DataFrame), "Output should be a DataFrame."
 
-    with pytest.raises(ValueError, match="The output is a DataFrame"):
-        statistic_info(mock_data)
+def test_create_linegraph():
+    
+    dataset = create_mock_dataset()
+    x = "Category"
+    y = "Test Category"
+    title = "Category vs Test Category"
+    xlabel = "Years"
+    ylabel = "Units"
+    
+    create_linegraph(dataset, x, y, title, xlabel, ylabel)
 
