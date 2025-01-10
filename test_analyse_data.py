@@ -90,8 +90,12 @@ def test_create_boxplot():
     """
     Tests the create_boxplot function using a mock dataset.
     """
-    # Create the mock dataset
-    dataset = create_mock_dataset()
+    # Create a mock dataset with 3 categories and a TOTAL row
+    dataset = pd.DataFrame({
+        "Category": ["Test Category 1", "Test Category 2", "Test Category 3", "TOTAL"],
+        "2004/05": [100.0, 200.0, 300.0, 600.0],
+        "2005/06": [150.0, 250.0, 350.0, 750.0],
+    })
 
     # Define test parameters
     title = "Category vs Units Over Time"
@@ -106,7 +110,7 @@ def test_create_boxplot():
         ylabel=ylabel
     )
 
-    # Perform basic assertions
+    # Perform assertions
     print("Extracted Categories:", categories)  # Debugging line
     print("Extracted Values:", values)          # Debugging line
 
@@ -116,9 +120,9 @@ def test_create_boxplot():
 
     # Verify the values for each category
     expected_values = [
-        [100.0, 150.0, 120.0],
-        [200.0, 250.0, 220.0],
-        [300.0, 350.0, 320.0]
+        [100.0, 150.0],
+        [200.0, 250.0],
+        [300.0, 350.0]
     ]
     for i, v in enumerate(values):
         assert list(v) == expected_values[i], f"Values for category {categories[i]} do not match."

@@ -68,12 +68,12 @@ def create_linegraph(dataset, category, title, xlabel, ylabel):
     plt.show() 
 
 def create_boxplot(dataset, title, xlabel, ylabel):
+    print("Initial Dataset:\n", dataset)
 
-    if dataset.columns[-1].strip().lower() == "total":
-        dataset = dataset.iloc[:, :-1]
+    # Exclude the "TOTAL" row and drop any rows with missing numerical values
+    dataset = dataset.loc[~dataset["Category"].str.strip().str.lower().eq("total")].dropna()
 
-    # Exclude the "TOTAL" row
-    dataset = dataset[dataset["Category"].str.strip().str.lower() != "total"]
+    print("Filtered Dataset (after excluding TOTAL):\n", dataset)
 
     # Initialise lists to store categories and values
     valid_categories = []
@@ -86,23 +86,28 @@ def create_boxplot(dataset, title, xlabel, ylabel):
 
         # Ensure the category exists
         if not category_data.empty:
-            # Extract numerical values 
+            # Extract numerical values
             row_values = category_data.iloc[0, 1:].values.astype(float)
-            print(f"Debug - Category: {category}, Values: {row_values}")
+            print(f"Debug - Category: {category}, Values: {row_values}")  # Debugging line
             valid_categories.append(category)  # Add the category
             values.append(row_values)  # Add the corresponding values
+
+    print("Categories Extracted:", valid_categories)  # Debugging line
+    print("Values Extracted:", values)  # Debugging line
+
+    assert len(valid_categories) == len(values), "Mismatch between categories and values."
 
     # Plot the boxplot
     plt.figure(figsize=(15, 8))  # Larger figure for better readability
     plt.boxplot(values, labels=valid_categories)
 
-    #Plot for better readability
+    # Plot for better readability
     plt.title(title, fontsize=16)
     plt.xlabel(xlabel, fontsize=14)
     plt.ylabel(ylabel, fontsize=14)
-    plt.xticks(rotation=45, fontsize=10)  
-    plt.grid(axis='y', linestyle='--', alpha=0.7)  
-    plt.tight_layout()  
+    plt.xticks(rotation=45, fontsize=10)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
     plt.show()
 
     return valid_categories, values
