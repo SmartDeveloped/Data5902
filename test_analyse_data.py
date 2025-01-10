@@ -50,8 +50,6 @@ def test_statistic_info():
     # Assert that the result is a DataFrame
     assert isinstance(stats, pd.DataFrame), "Output should be a DataFrame."
 
-import pandas as pd
-
 def create_graph_mock_dataset():
     """
     Creates a mock dataset for testing purposes.
@@ -111,8 +109,8 @@ def test_create_boxplot():
     )
 
     # Perform assertions
-    print("Extracted Categories:", categories)  # Debugging line
-    print("Extracted Values:", values)          # Debugging line
+    print("Extracted Categories:", categories)
+    print("Extracted Values:", values)          
 
     assert len(categories) == 3, "The number of categories should be 3 (excluding TOTAL)."
     assert len(values) == 3, "The number of value groups should match the categories."
@@ -129,8 +127,43 @@ def test_create_boxplot():
 
     print("test_create_boxplot passed.")
 
+def test_create_lineargraph():
+    """
+    Test the create_lineargraph function with a mock dataset.
+    """
+    # Create a mock dataset
+    dataset = pd.DataFrame({
+        "Category": ["Category X", "Category Y"],
+        "2004/05": [10, 20],
+        "2005/06": [15, 25],
+        "2006/07": [20, 30],
+        "2007/08": [25, 35]
+    })
+
+    # Define test parameters
+    x = "Category X"
+    y = "Category Y"
+    xlabel = "Values for Category X"
+    ylabel = "Values for Category Y"
+    title = "Linear Regression Test Plot"
+
+    try:
+        # Call the function
+        create_lineargraph(
+            dataset=dataset,
+            x=x,
+            y=y,
+            xlabel=xlabel,
+            ylabel=ylabel,
+            title=title
+        )
+        print("test_create_lineargraph passed.")
+    except Exception as e:
+        print(f"test_create_lineargraph failed: {e}")
 
 # Run the test
 if __name__ == "__main__":
+    test_statistic_info()
     test_create_linegraph()
     test_create_boxplot()
+    test_create_lineargraph()
