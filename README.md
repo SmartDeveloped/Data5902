@@ -1,76 +1,70 @@
-# London Undergorund Quality Report
+London Underground Quality Report
 
-This project analyses the London underground's performance data between the years of 2004 to 2017
-from various categories across multiple years to identify trends and answer the question - 
-Has the London Undergound's servicies improved over the year? 
+This project analyses the London Underground’s performance data from 2004 to 2017, covering various categories such as power failures, signal issues, and staff shortages. The objective is to identify trends and assess whether the quality of services has improved over the years, addressing the key question:
+Has the London Underground’s service quality improved over time?
 
-## How to Run the Project
+How to Run the Project
 
-1. Clone the repository:
-   ```bash
-   git clone <https://github.com/SmartDeveloped/Data5902>
-   
+1. Clone the Repository
+
+First, clone the repository to your local machine:
+
+git clone https://github.com/SmartDeveloped/Data5902
+cd Data5902
+
 2. Install Dependencies
-   Ensure you have Python installed on your system. Then, install the required Python libraries:
 
-   pip install -r requirements.txt
+Ensure Python is installed on your system. Then, install the required dependencies:
 
-   This will have:
-   •   pandas
+pip install -r requirements.txt
 
-   •   numpy
+The requirements.txt includes:
+	•	pandas
+	•	numpy
+	•	pytest
+	•	matplotlib
+	•	scipy
 
-   •   pytest
+3. Run the Main Script
 
-   •   matplotlib
+To analyse the data and generate visualisations, run:
 
-   •   scipy
-   
+python analyse_data.py
 
-4. Run the Main Script
+This script will:
+	•	Load and preprocess the dataset.
+	•	Perform data analysis.
+	•	Generate visualisations, including:
+	•	Line graphs (for trends).
+	•	Boxplots (for distributions).
+	•	Linear regression plots (for relationships).
 
-   python analyse_data.py
+How to Test
 
-   This will:
-	•	Load the dataset.
+Run the unit tests to validate the functionality of the project:
 
-	•	Perform the analysis.
+python test_analyse_data.py
 
-	•	Generate visualisations (line graphs, boxplots, and regression plots).
-
-## How to Test:
-
-   python test_analyse_data.py
-
-   Ensure that the following functionalities are tested:
-
+Tests include:
 	•	Loading and filtering the dataset.
+	•	Generating line graphs, boxplots, and regression plots.
+	•	Ensuring outputs align with expected results.
 
-	•	Creating line graphs.
+Results
 
-	•	Creating boxplots.
+This project provides a detailed analysis of London Underground performance data, offering insights through the following visualisations:
 
-	•	Creating linear regression plots.
+1. Line Graphs
+	•	Track trends over time for categories like “Power Failure” and “Signals.”
 
-## Results: 
+2. Boxplots
+	•	Compare distributions across categories over 12 years, highlighting variability and outliers.
 
-   This project provides insights into performance data by visualising:
-	1.	Trends over time (line graphs).
-	2.	Distributions across categories (boxplots).
-	3.	Relationships between variables (linear regression).
+3. Linear Regression
+	•	Examine relationships, such as between “Staff Absence” and “London Underground Operations,” to identify underlying patterns.
 
-Visualisations
-	1.	Line Graphs:
+These findings offer valuable perspectives on the effectiveness of investments in maintaining and improving the London Underground.
 
-	•	Visualise trends in categories like Power Failure or Signals.
+Contributors
+	•	Timothy Smart Omoruyi
 
-	2.	Boxplots:
-
-	•	Compare the distribution of categories across 12 years.
-
-	3.	Linear Regression:
-   
-	•	Examine relationships, e.g., between Staff Absence and London Underground Operations.
-
- ## Contributors
-    Timothy Smart Omoruyi
