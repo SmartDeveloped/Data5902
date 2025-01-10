@@ -17,9 +17,13 @@ Has the London Undergound's servicies improved over the year?
 
    This will have:
    •   pandas
+
    •   numpy
+
    •   pytest
+
    •   matplotlib
+
    •   scipy
    
 
@@ -29,7 +33,9 @@ Has the London Undergound's servicies improved over the year?
 
    This will:
 	•	Load the dataset.
+
 	•	Perform the analysis.
+
 	•	Generate visualisations (line graphs, boxplots, and regression plots).
 
 ## How to Test:
@@ -37,9 +43,13 @@ Has the London Undergound's servicies improved over the year?
    python test_analyse_data.py
 
    Ensure that the following functionalities are tested:
+
 	•	Loading and filtering the dataset.
+
 	•	Creating line graphs.
+
 	•	Creating boxplots.
+
 	•	Creating linear regression plots.
 
 ## Results: 
@@ -51,10 +61,15 @@ Has the London Undergound's servicies improved over the year?
 
 Visualisations
 	1.	Line Graphs:
+
 	•	Visualise trends in categories like Power Failure or Signals.
+
 	2.	Boxplots:
+
 	•	Compare the distribution of categories across 12 years.
+
 	3.	Linear Regression:
+   
 	•	Examine relationships, e.g., between Staff Absence and London Underground Operations.
 
  ## Contributors

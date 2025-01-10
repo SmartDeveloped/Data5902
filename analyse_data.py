@@ -187,9 +187,9 @@ if __name__ == "__main__":
     # Create the boxplot graph
     create_boxplot(
         dataset=data,
-        title="Analysis of Impact Staff absence or shortage of  Over All Years",
+        title="Boxplot of Variable's number of occurance Over All Years",
         xlabel="Year",
-        ylabel="Number of Occasions"
+        ylabel="Number of Occasions (1 = 100,000)"
     )
 
     create_lineargraph(
