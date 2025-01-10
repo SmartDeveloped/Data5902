@@ -64,7 +64,29 @@ def create_linegraph(dataset, category, title, xlabel, ylabel):
     plt.xticks(rotation=45)
     plt.legend()
     plt.grid(True)
-    plt.show()  # Show the current figure
+    plt.show() 
+
+def create_boxplot(dataset, category, title, xlabel, ylabel):
+    filtered_data = dataset[dataset["Category"] == category].set_index("Category")
+
+    # Transpose the data to get years as rows
+    filtered_data = filtered_data.T
+    # Numerical values to a list for boxplot
+    data_values = filtered_data.values.astype(float).tolist()
+
+    # Prepare the years as labels
+    years = filtered_data.index
+
+    plt.figure(figsize=(10, 6))
+    plt.boxplot(data_values, labels=years)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.grid(True)
+    plt.show() 
+
 
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
@@ -102,6 +124,15 @@ if __name__ == "__main__":
         dataset=data,
         category = "Power Failure",
         title="Analysis of Power Failures Over All Years",
+        xlabel="Year",
+        ylabel="Number of Occasions"
+    )
+
+    # Create the boxplot graph
+    create_boxplot(
+        dataset=data,
+        category = "Staff - Absence or Shortage",
+        title="Analysis of Impact Staff absence or shortage of  Over All Years",
         xlabel="Year",
         ylabel="Number of Occasions"
     )
