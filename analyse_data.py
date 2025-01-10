@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from scipy.stats import linregress
 
 def load_data(filepath="performance-data.csv"):
     """
@@ -98,11 +99,42 @@ def create_boxplot(dataset, title, xlabel, ylabel):
     plt.title(title, fontsize=16)
     plt.xlabel(xlabel, fontsize=14)
     plt.ylabel(ylabel, fontsize=14)
-    plt.xticks(rotation=45, fontsize=10)  # Rotate x-axis labels for readability
-    plt.grid(axis='y', linestyle='--', alpha=0.7)  # Add gridlines for y-axis
-    plt.tight_layout()  # Adjust layout to prevent label clipping
+    plt.xticks(rotation=45, fontsize=10)  
+    plt.grid(axis='y', linestyle='--', alpha=0.7)  
+    plt.tight_layout()  
     plt.show()
 
+def create_lineargraph(dataset, x, y, xlabel, ylabel, title):
+
+    # Ensure the columns exist in the dataset
+    if x not in dataset["Category"].values or y not in dataset["Category"].values:
+        raise ValueError(f"Either '{x}' or '{y}' is not a valid category in the dataset.")
+
+    # Extract data for x and y
+    x_data = dataset[dataset["Category"] == x].iloc[:, 1:].values.flatten().astype(float)
+    y_data = dataset[dataset["Category"] == y].iloc[:, 1:].values.flatten().astype(float)
+
+    # Perform linear regression
+    slope, intercept, r, p, std_err = linregress(x_data, y_data)
+
+    # Define the regression function
+    def myfunc(x):
+        return slope * x + intercept
+
+    # Generate the regression line
+    regression_line = list(map(myfunc, x_data))
+
+    # Plot the scatter plot and regression line
+    plt.figure(figsize=(10, 6))
+    plt.scatter(x_data, y_data, label='Data Points')
+    plt.plot(x_data, regression_line, color='red', label=f'Line: y={slope:.2f}x+{intercept:.2f}')
+    plt.title(title, fontsize=14)
+    plt.xlabel(xlabel, fontsize=12)
+    plt.ylabel(ylabel, fontsize=12)
+    plt.legend()
+    plt.grid(alpha=0.5)
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
@@ -150,4 +182,13 @@ if __name__ == "__main__":
         title="Analysis of Impact Staff absence or shortage of  Over All Years",
         xlabel="Year",
         ylabel="Number of Occasions"
+    )
+
+    create_lineargraph(
+        dataset = data,
+        x = "Staff - Absence or Shortage",
+        y = "Other LU Operations",
+        xlabel = "Absence or Shortage from staff",
+        ylabel = "London Underground Operation",
+        title = "Linear Regression on Absence or Shortage and London Underground Operation of  Over All Years"
     )
