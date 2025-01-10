@@ -38,20 +38,33 @@ def statistic_info(data):
     info = data.describe().T
     return info
 
-def create_linegraph(dataset, x, y, title, xlabel, ylabel):
+def create_linegraph(dataset, category, title, xlabel, ylabel):
     """
     Creates and displays a graph.
     """
-    plt.figure(figsize=(10, 6))
-    plt.plot(dataset[x], dataset[y], marker='o')
+# Filter the data for the given category
+    filtered_data = dataset[dataset["Category"] == category].set_index("Category")
+
+    # Transpose the data to get years as rows
+    filtered_data = filtered_data.T
+
+    # Rename the column for clarity
+    filtered_data.columns = [category]
+
+    # Reset the index to prepare for graphing
+    filtered_data = filtered_data.reset_index()
+    filtered_data.rename(columns={"index": "Year"}, inplace=True)
+
+    # Plot the data
+    plt.figure(figsize=(10, 6))  # Create a new figure
+    plt.plot(filtered_data["Year"], filtered_data[category], marker='o', label=category)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.xticks(rotation=45)
     plt.legend()
     plt.grid(True)
-    plt.show()
-
+    plt.show()  # Show the current figure
 
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
@@ -75,22 +88,19 @@ if __name__ == "__main__":
     stats = statistic_info(data)
     print(stats)
 
-# Filter for the "Power Failure" category
-    power_filtered = data[data["Category"] == "Power Failure"].set_index("Category")
-
-    # Transpose the data to get years as rows
-    power_filtered = power_filtered.T
-    power_filtered.columns = ["Power Failure"]  # Rename the column for clarity
-
-    # Reset index to prepare for graphing
-    power_filtered = power_filtered.reset_index()
-    power_filtered.rename(columns={"index": "Year"}, inplace=True)
+    # Create the line graph
+    create_linegraph(
+        dataset=data,
+        category = "Signals",
+        title="Analysis of Signals Over All Years",
+        xlabel="Year",
+        ylabel="Number of Occasions"
+    )
 
     # Create the line graph
     create_linegraph(
-        dataset=power_filtered,
-        x="Year",
-        y="Power Failure",
+        dataset=data,
+        category = "Power Failure",
         title="Analysis of Power Failures Over All Years",
         xlabel="Year",
         ylabel="Number of Occasions"

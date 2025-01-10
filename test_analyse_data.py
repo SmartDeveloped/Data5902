@@ -50,14 +50,43 @@ def test_statistic_info():
     # Assert that the result is a DataFrame
     assert isinstance(stats, pd.DataFrame), "Output should be a DataFrame."
 
+import pandas as pd
+
+def create_graph_mock_dataset():
+    """
+    Creates a mock dataset for testing purposes.
+    """
+    data = {
+        "Category": ["Test Category 1", "Test Category 2", "Test Category 3"],
+        "2004/05": [100, 200, 300],
+        "2005/06": [150, 250, 350],
+        "2006/07": [120, 220, 320]
+    }
+    return pd.DataFrame(data)
+
 def test_create_linegraph():
-    
-    dataset = create_mock_dataset()
-    x = "Category"
-    y = "Test Category"
-    title = "Category vs Test Category"
+    """
+    Tests the create_linegraph function using a mock dataset.
+    """
+    # Create the mock dataset
+    dataset = create_graph_mock_dataset()
+
+    # Define test parameters
+    category = "Test Category 1"
+    title = "Category vs Units Over Time"
     xlabel = "Years"
     ylabel = "Units"
-    
-    create_linegraph(dataset, x, y, title, xlabel, ylabel)
+
+    # Call the function
+    create_linegraph(
+        dataset=dataset,
+        category=category,
+        title=title,
+        xlabel=xlabel,
+        ylabel=ylabel
+    )
+
+# Run the test
+if __name__ == "__main__":
+    test_create_linegraph()
 
