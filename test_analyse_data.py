@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from analyse_data import load_data, get_value, statistic_info, create_linegraph
+from analyse_data import load_data, get_value, statistic_info, create_linegraph, create_boxplot, create_lineargraph
 
 def create_mock_dataset():
     return pd.DataFrame({
@@ -86,7 +86,47 @@ def test_create_linegraph():
         ylabel=ylabel
     )
 
+def test_create_boxplot():
+    """
+    Tests the create_boxplot function using a mock dataset.
+    """
+    # Create the mock dataset
+    dataset = create_mock_dataset()
+
+    # Define test parameters
+    title = "Category vs Units Over Time"
+    xlabel = "Categories"
+    ylabel = "Units"
+
+    # Call the function
+    categories, values = create_boxplot(
+        dataset=dataset,
+        title=title,
+        xlabel=xlabel,
+        ylabel=ylabel
+    )
+
+    # Perform basic assertions
+    print("Extracted Categories:", categories)  # Debugging line
+    print("Extracted Values:", values)          # Debugging line
+
+    assert len(categories) == 3, "The number of categories should be 3 (excluding TOTAL)."
+    assert len(values) == 3, "The number of value groups should match the categories."
+    assert "TOTAL" not in categories, "'TOTAL' should be excluded from the categories."
+
+    # Verify the values for each category
+    expected_values = [
+        [100.0, 150.0, 120.0],
+        [200.0, 250.0, 220.0],
+        [300.0, 350.0, 320.0]
+    ]
+    for i, v in enumerate(values):
+        assert list(v) == expected_values[i], f"Values for category {categories[i]} do not match."
+
+    print("test_create_boxplot passed.")
+
+
 # Run the test
 if __name__ == "__main__":
     test_create_linegraph()
-
+    test_create_boxplot()

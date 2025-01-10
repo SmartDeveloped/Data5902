@@ -69,11 +69,11 @@ def create_linegraph(dataset, category, title, xlabel, ylabel):
 
 def create_boxplot(dataset, title, xlabel, ylabel):
 
-    if dataset.columns[-1].lower() == "total":
+    if dataset.columns[-1].strip().lower() == "total":
         dataset = dataset.iloc[:, :-1]
 
     # Exclude the "TOTAL" row
-    dataset = dataset[dataset["Category"].str.lower() != "total"]
+    dataset = dataset[dataset["Category"].str.strip().str.lower() != "total"]
 
     # Initialise lists to store categories and values
     valid_categories = []
@@ -88,6 +88,7 @@ def create_boxplot(dataset, title, xlabel, ylabel):
         if not category_data.empty:
             # Extract numerical values 
             row_values = category_data.iloc[0, 1:].values.astype(float)
+            print(f"Debug - Category: {category}, Values: {row_values}")
             valid_categories.append(category)  # Add the category
             values.append(row_values)  # Add the corresponding values
 
@@ -103,6 +104,8 @@ def create_boxplot(dataset, title, xlabel, ylabel):
     plt.grid(axis='y', linestyle='--', alpha=0.7)  
     plt.tight_layout()  
     plt.show()
+
+    return valid_categories, values
 
 def create_lineargraph(dataset, x, y, xlabel, ylabel, title):
 
