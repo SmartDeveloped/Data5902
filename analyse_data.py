@@ -66,26 +66,42 @@ def create_linegraph(dataset, category, title, xlabel, ylabel):
     plt.grid(True)
     plt.show() 
 
-def create_boxplot(dataset, category, title, xlabel, ylabel):
-    filtered_data = dataset[dataset["Category"] == category].set_index("Category")
+def create_boxplot(dataset, title, xlabel, ylabel):
 
-    # Transpose the data to get years as rows
-    filtered_data = filtered_data.T
-    # Numerical values to a list for boxplot
-    data_values = filtered_data.values.astype(float).tolist()
+    if dataset.columns[-1].lower() == "total":
+        dataset = dataset.iloc[:, :-1]
 
-    # Prepare the years as labels
-    years = filtered_data.index
+    # Exclude the "TOTAL" row
+    dataset = dataset[dataset["Category"].str.lower() != "total"]
 
-    plt.figure(figsize=(10, 6))
-    plt.boxplot(data_values, labels=years)
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.xticks(rotation=45)
-    plt.legend()
-    plt.grid(True)
-    plt.show() 
+    # Initialise lists to store categories and values
+    valid_categories = []
+    values = []
+
+    # Iterate through each category
+    for category in dataset["Category"].unique():
+        # Filter the data for the current category
+        category_data = dataset[dataset["Category"] == category]
+
+        # Ensure the category exists
+        if not category_data.empty:
+            # Extract numerical values 
+            row_values = category_data.iloc[0, 1:].values.astype(float)
+            valid_categories.append(category)  # Add the category
+            values.append(row_values)  # Add the corresponding values
+
+    # Plot the boxplot
+    plt.figure(figsize=(15, 8))  # Larger figure for better readability
+    plt.boxplot(values, labels=valid_categories)
+
+    #Plot for better readability
+    plt.title(title, fontsize=16)
+    plt.xlabel(xlabel, fontsize=14)
+    plt.ylabel(ylabel, fontsize=14)
+    plt.xticks(rotation=45, fontsize=10)  # Rotate x-axis labels for readability
+    plt.grid(axis='y', linestyle='--', alpha=0.7)  # Add gridlines for y-axis
+    plt.tight_layout()  # Adjust layout to prevent label clipping
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -131,7 +147,6 @@ if __name__ == "__main__":
     # Create the boxplot graph
     create_boxplot(
         dataset=data,
-        category = "Staff - Absence or Shortage",
         title="Analysis of Impact Staff absence or shortage of  Over All Years",
         xlabel="Year",
         ylabel="Number of Occasions"
