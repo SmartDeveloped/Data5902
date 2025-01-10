@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def load_data(filepath="performance-data.csv"):
     """
@@ -31,6 +32,18 @@ def get_value(data, category, year):
         raise ValueError(f"The category '{category}' is not in the dataset.")
     return data.loc[data['Category'] == category, year].values[0]
 
+def statistic_info(data):
+    """
+    Returns statistical information about the dataset.
+    
+    Args:
+        data (pd.DataFrame): The dataset.
+    
+    Returns:
+        pd.DataFrame: Statistical summary of the dataset (transposed).
+    """
+    info = data.describe().T
+    return info
 
 if __name__ == "__main__":
     # Filepath to the cleaned dataset
@@ -49,3 +62,6 @@ if __name__ == "__main__":
         print(f"The value for '{category}' in {year} is: {value}")
     except ValueError as e:
         print(e)
+
+    stats = statistic_info(data)
+    print(stats)
